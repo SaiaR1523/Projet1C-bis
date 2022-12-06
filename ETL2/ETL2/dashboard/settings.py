@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'dashboard',
     'collab',
     'analyse',
+    'traitement'
 ]
 
 MIDDLEWARE = [

@@ -17,11 +17,13 @@ from django.contrib import admin
 from django.urls import include, path
 from collab import views 
 from analyse import views 
+from traitement import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('collab/', include ('collab.urls')),
     path ('collab/', include ('django.contrib.auth.urls')),
     path('', include ('collab.urls')),
-    path('analyse/', include ('analyse.urls'))
+    path('analyse/', include ('analyse.urls')),
+    path('graphique/', include ('traitement.urls'))
 ]
