@@ -13,18 +13,17 @@
 <body>
   
     <header class="site-header">
-        <div class="wrapper site-header__wrapper">
+        <div class="position-relative">
             <a class="navbar-brand" href="#">
                 <img class= "logo" src="{% static 'logo.png' %}"  >
             </a>
-            <span class="user"> {{ user.prenom }} {{user.nom}} </span>
-            <nav class="nav">         
+            <span class="user"> {{ user.prenom }} {{user.nom}} </span>  
+            <div class="position-absolute top-50 end-0 translate-middle-y">
                 {% if user.is_authenticated %}
-            
-                <a class="button-40" role="button" href="{% url 'logout' %}" role="button"> Deconnexion </a>
+                <a type="button" class="btn btn-primary" role="button" href="{% url 'logout' %}" role="button"> Deconnexion </a>
                 {% endif %}
-            </nav>
-        </div>
+            </div>
+        <div>
       </header>
 
 
