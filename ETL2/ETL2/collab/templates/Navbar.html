@@ -6,31 +6,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dahsboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static "css/style.css"  %}" />
+    <link rel="stylesheet" href="{% static "css/header-1.css"  %}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 
 <body>
-  
     <header class="site-header">
-        <div class="position-relative">
+        <div class="container">
             <a class="navbar-brand" href="#">
                 <img class= "logo" src="{% static 'logo.png' %}"  >
             </a>
-            <span class="user"> {{ user.prenom }} {{user.nom}} </span>  
-            <div class="position-absolute top-50 end-0 translate-middle-y">
+            <span class="user"> 
+                <h2 class='nomUtil'> Bienvenue {{ user.username }} {{user.nom}} </h2>
+            </span>  
                 {% if user.is_authenticated %}
-                <a type="button" class="btn btn-primary" role="button" href="{% url 'logout' %}" role="button"> Deconnexion </a>
+                    <a type="button" class="btn btn-primary" href={% url 'menuDb' %} role="button">Menu graphique</a>
+                    <a type="button" class="btn btn-primary" role="button" href="{% url 'db' %}" role="button"> Liste imports </a>
+                    <a type="button" class="btn btn-primary" role="button" href="{% url 'logout' %}" role="button"> Deconnexion </a>
                 {% endif %}
-            </div>
         <div>
-      </header>
+    </header>
+    <section>
+{% block content %}
 
-
-    {% block content %}
-
-    {% endblock %} 
-
+{% endblock %} 
+    </section>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>

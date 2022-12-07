@@ -3,4 +3,5 @@ from . import views
 
 urlpatterns = [
     path('db', views.db, name='db'),
+    path('importF', views.importF, name='importF')
 ]

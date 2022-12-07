@@ -1,0 +1,16 @@
+{% extends 'Navbar.html' %}
+
+{%block content%}
+
+<form action="" method=POST>
+    {% csrf_token %}
+    
+    <div>
+        <label for="formFileLg" class="form-label">importer le fichier</label>
+        <input class="form-control form-control-lg" id="formFileLg" type="file">
+      </div>
+    <div>
+        <a type="button" class="btn btn-info" href="#" role="button" type="submit">charger le fichier</a>
+    </div>
+</form>
+{%endblock%}
