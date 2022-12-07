@@ -1,10 +1,10 @@
 var ctx = document.getElementById('myChart2').getContext('2d');
 var myChart = new Chart(ctx, {
-    type: 'line',
+    type: 'doughnut',
     data: {
-        labels: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin'],
+        labels: ['Juillet','août', 'septembre', 'octobre', 'novembre', 'Décembre'],
         datasets: [{
-            label: 'Ventes',
+            label: 'Ventes de produits spécifiques',
             data: [12, 19, 3, 5, 2, 3],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
