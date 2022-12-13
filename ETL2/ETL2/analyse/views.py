@@ -7,8 +7,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UploadFileForm
-
+from django import forms
 from .handle_uploaded_file import handle_uploaded_file
+import pandas as pd
 
 # Create your views here.
 @login_required (login_url='login')
@@ -18,10 +19,20 @@ def db(request):
 @login_required (login_url='login')
 def importF (request):
       if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            handle_uploaded_file(request.FILES['file'])
-            return HttpResponseRedirect('/success/url/')
-      else:
-          form = UploadFileForm()
-      return render(request, 'import.html', {'form': form})
+        data = request.FILES['data']
+        print("---------------------")
+        print(data)
+        print("--------------------")
+        # import pdb; pdb.set_trace()
+        data1 = data.read().decode('ISO-8859-1')
+        print("--------------------")
+        df = pd.read_csv(data1, delimiter=",")
+        context = {
+            'n1': 2000 ,
+            'n2': 3000 ,
+            # 'n3' :infos1,
+            }
+        template = loader.get_template('retourImp.html')
+        return HttpResponse(template.render(context, request)) 
+
+      return render(request, 'import.html', {})

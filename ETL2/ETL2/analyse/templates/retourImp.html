@@ -1,0 +1,14 @@
+{% extends 'Navbar.html' %}
+
+{%block content%}
+
+<form action ="" method='POST' enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <div>
+  <h1> test d'import si arriver ici alors tout se passe bien </h1> 
+  {{ n1}}
+  {{ n2}}
+    </div>
+</form>
+{%endblock%}

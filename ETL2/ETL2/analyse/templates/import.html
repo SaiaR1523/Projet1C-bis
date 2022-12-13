@@ -2,15 +2,12 @@
 
 {%block content%}
 
-<form action="" method=POST>
+<form action ='' method='POST' enctype="multipart/form-data">
     {% csrf_token %}
     
     <div>
-        <label for="formFileLg" class="form-label">importer le fichier</label>
-        <input class="form-control form-control-lg" id="formFileLg" type="file">
-      </div>
+        <input type="file" name="data" accept=".csv">
+        <button type="submit">Import</button>
     <div>
-        <a type="button" class="btn btn-info" href="#" role="button" type="submit">charger le fichier</a>
-    </div>
 </form>
 {%endblock%}

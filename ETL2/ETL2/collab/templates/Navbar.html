@@ -18,10 +18,11 @@
             <a class="navbar-brand" href="{% url 'db' %}">
                 <img class= "logo" src="{% static 'logo.png' %}"  >
             </a>
-            <span class="user"> 
-                <h2 class='nomUtil'> Bienvenue {{ user.username }} {{user.nom}} </h2>
-            </span>  
+   
                 {% if user.is_authenticated %}
+                <span class="user"> 
+                    <h2 class='nomUtil'> Bienvenue {{ user.username }} {{user.nom}} </h2>
+                </span> 
                     <a type="button" class="btn btn-primary" href="{% url 'menuDb' %}" role="button">Menu graphique</a>
                     <a type="button" class="btn btn-primary" role="button" href="{% url 'db' %}" role="button"> Liste imports </a>
                     <a type="button" class="btn btn-primary" role="button" href="{% url 'logout' %}" role="button"> Deconnexion </a>
