@@ -12,6 +12,8 @@ from .handle_uploaded_file import handle_uploaded_file
 import pandas as pd
 from csv import DictReader
 from io import TextIOWrapper
+import models
+
 
 # Create your views here.
 @login_required (login_url='login')
@@ -32,18 +34,23 @@ def importF (request):
         # import pdb; pdb.set_trace()
         file1 = TextIOWrapper(data, encoding="ISO-8859-1", newline="")
         print("--------------------")
+        
         #pour transformer le fichier en data frames
         df = pd.read_csv(file1, delimiter=",")
+        
         #pour suprpimer les doublons à partir des deux premières colonnes
         df = df.drop_duplicates(['InvoiceNo','StockCode']) 
         print (df)
+        
         #pour enlver les quantités négatives donc les avoir
         df = df.drop(df[df['Quantity'] < 0].index)
         print (df)
+        
         #pour enlver les numéro de produits douteux 
         VS = ['M','POST', 'C2', 'DOT', 'BANK CHARGES', 'D', 'AMAZONFEE', 'S', 'gift_0001_10','gift_0001_20','gift_0001_30','gift_0001_40','gift_0001_50', 'PADS' ]
         df = df.drop(df[df['StockCode'].isin(VS)].index) # suppriemr les vlaeurs au dessus 
         print(df)
+        
         #pour vérifier si les valeurs VS sont encore dans la data frame
         df[df['StockCode'].isin(VS)]
         print(df)
