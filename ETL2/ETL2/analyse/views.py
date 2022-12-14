@@ -13,7 +13,9 @@ import pandas as pd
 from csv import DictReader
 from io import TextIOWrapper
 from .models import *
-
+import psycopg2
+from sqlalchemy import create_engine
+engine = create_engine('postgresql://postgres:0000@localhost5432/dashboard2')
 
 # Create your views here.
 @login_required (login_url='login')
@@ -61,6 +63,13 @@ def importF (request):
                                 'Country': 'pays'})
         # The DataFrame now has the new column names
         print(df)
+        
+        df.to_sql (
+            name="my_table",
+            con=engine,
+            if_exists='append',
+            index="false",
+        )
         
         infos1 = df.head()
         description = df.describe()
