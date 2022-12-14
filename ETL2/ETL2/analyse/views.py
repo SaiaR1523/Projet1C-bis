@@ -12,7 +12,7 @@ from .handle_uploaded_file import handle_uploaded_file
 import pandas as pd
 from csv import DictReader
 from io import TextIOWrapper
-import models
+from .models import *
 
 
 # Create your views here.
@@ -53,6 +53,13 @@ def importF (request):
         
         #pour vérifier si les valeurs VS sont encore dans la data frame
         df[df['StockCode'].isin(VS)]
+        print(df)
+        
+        #transformer les entêtes pour que ça soit le même avec la data base 
+        df = df.rename(columns={'InvoiceNo': 'numFacture', 'StockCode': 'numéro de produit', 
+                                'Description': 'nomProduit', 'UnitPrice': 'PU', 'InvoiceDate': 'dateAchat',
+                                'Country': 'pays'})
+        # The DataFrame now has the new column names
         print(df)
         
         infos1 = df.head()
