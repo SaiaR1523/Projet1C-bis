@@ -15,7 +15,7 @@ from io import TextIOWrapper
 from .models import *
 import psycopg2
 from sqlalchemy import create_engine
-engine = create_engine('postgresql://postgres:0000@localhost5432/dashboard2')
+engine = create_engine('postgresql://postgres:0000@localhost:5432/dashboard2')
 
 # Create your views here.
 @login_required (login_url='login')
@@ -58,18 +58,50 @@ def importF (request):
         print(df)
         
         #transformer les entêtes pour que ça soit le même avec la data base 
-        df = df.rename(columns={'InvoiceNo': 'numFacture', 'StockCode': 'numéro de produit', 
+        df = df.rename(columns={'InvoiceNo': 'numFacture', 'StockCode': 'nomProduit', 
                                 'Description': 'nomProduit', 'UnitPrice': 'PU', 'InvoiceDate': 'dateAchat',
-                                'Country': 'pays'})
+                                'Quantity' : 'qte','Country': 'pays' })
         # The DataFrame now has the new column names
         print(df)
+        #importation table PAYS
+        dfpays = df['pays']
+        dfpays.drop_duplicates(keep='first',inplace=True)
         
-        df.to_sql (
-            name="my_table",
+        dfpays.to_sql (
+            name="PAYS",
             con=engine,
             if_exists='append',
-            index="false",
-        )
+            index=False
+        )       
+        
+        # #importation table PRODUIT
+        # dfPRODUIT = df ['numProduit' , 'nomProduit' , 'PU']
+        
+        # dfPRODUIT.to_sql (
+        #     name="PRODUIT",
+        #     con=engine,
+        #     if_exists='append',
+        #     index="false",
+        # )
+        
+        # #importation table FACTURE
+        # dfFACTURE = df ['numFacture' , 'dateAchat' , 'pays']
+        
+        # dfFACTURE.to_sql (
+        #     name="FACTURE",
+        #     con=engine,
+        #     if_exists='append',
+        #     index="false",
+        # )
+        
+        # dfDTLFACT = df ['numFacture' , 'numproduit' , 'qte']
+        
+        # dfDTLFACT.to_sql (
+        #     name="DTLFACT",
+        #     con=engine,
+        #     if_exists='append',
+        #     index="false",
+        # )
         
         infos1 = df.head()
         description = df.describe()

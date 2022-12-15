@@ -83,8 +83,6 @@ DATABASES = {
         'NAME': 'dashboard2',
         'USER': 'postgres',
         'PASSWORD': '0000',
-        'HOST': 'localhost',
-        'PORT': '5432',
     }
 }
 
