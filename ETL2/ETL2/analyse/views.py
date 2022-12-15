@@ -34,11 +34,11 @@ def importF (request):
         print(data)
         print("--------------------")
         # import pdb; pdb.set_trace()
-        file1 = TextIOWrapper(data, encoding="ISO-8859-1", newline="")
+        data = TextIOWrapper(data, encoding="ISO-8859-1", newline="")
         print("--------------------")
         
         #pour transformer le fichier en data frames
-        df = pd.read_csv(file1, delimiter=",")
+        df = pd.read_csv(data, delimiter=",")
         
         #pour suprpimer les doublons à partir des deux premières colonnes
         df = df.drop_duplicates(['InvoiceNo','StockCode']) 
@@ -64,17 +64,19 @@ def importF (request):
         # The DataFrame now has the new column names
         print(df)
         
-        # #importation table PAYS
-        # dfpays = df['pays']
-        # dfpays.drop_duplicates(keep='first',inplace=True)
+        #importation table PAYS
+        dfpays = df[['pays']]
+        dfpays.drop_duplicates(keep='first',inplace=True)
         
-        # dfpays.to_sql (
-        #     name="PAYS",
-        #     con=engine,
-        #     if_exists='append',
-        #     index=False
-        # )       
-        
+        row_iter0 = dfpays.iterrows()
+        objs1 =[
+          Pays (
+            pays = row ['pays'],
+          )
+          for index, row in row_iter0
+               ]
+        Pays.objects.bulk_create(objs1)
+
         #importation table PRODUIT
         dfproduit = df[['numProduit','nomProduit' , 'PU' ]].copy()  #pour suppriemr les doublons entre les 3 colonnes de num produit
         #description et prix unitaire
@@ -91,24 +93,30 @@ def importF (request):
                ]
         Produit.objects.bulk_create(objs)
         
-        # #importation table FACTURE
-        # dfFACTURE = df ['numFacture' , 'dateAchat' , 'pays']
+        #importation table FACTURE
+        dffacture = df [['numFacture' , 'dateAchat' , 'pays']].copy()  #pour suppriemr les doublons entre les 3 colonnes de num produit
+        #description et prix unitaire
+        dffacture.drop_duplicates(subset=['numFacture'],inplace=True)
+        dffacture
         
-        # dfFACTURE.to_sql (
-        #     name="FACTURE",
-        #     con=engine,
-        #     if_exists='replace',
-        #     index=False,
-        # )
+        dffacture.to_sql (
+            name="FACTURE",
+            con=engine,
+            if_exists='append',
+            index=False,
+        )
         
-        # dfDTLFACT = df ['numFacture' , 'numproduit' , 'qte']
+        dfDTLFACT = df [['numFacture' , 'numproduit' , 'qte']]
         
-        # dfDTLFACT.to_sql (
-        #     name="DTLFACT",
-        #     con=engine,
-        #     if_exists='append',
-        #     index="false",
-        # )
+        
+        #Importation de la table FACTURE
+        dfDTLFACT.to_sql (
+            name="DTLFACT",
+            con=engine,
+            if_exists='append',
+            index="false",
+        )
+        
         
         infos1 = df.head()
         description = df.describe()
