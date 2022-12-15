@@ -58,31 +58,38 @@ def importF (request):
         print(df)
         
         #transformer les entêtes pour que ça soit le même avec la data base 
-        df = df.rename(columns={'InvoiceNo': 'numFacture', 'StockCode': 'nomProduit', 
+        df = df.rename(columns={'InvoiceNo': 'numFacture', 'StockCode': 'numProduit', 
                                 'Description': 'nomProduit', 'UnitPrice': 'PU', 'InvoiceDate': 'dateAchat',
                                 'Quantity' : 'qte','Country': 'pays' })
         # The DataFrame now has the new column names
         print(df)
-        #importation table PAYS
-        dfpays = df['pays']
-        dfpays.drop_duplicates(keep='first',inplace=True)
         
-        dfpays.to_sql (
-            name="PAYS",
-            con=engine,
-            if_exists='append',
-            index=False
-        )       
+        # #importation table PAYS
+        # dfpays = df['pays']
+        # dfpays.drop_duplicates(keep='first',inplace=True)
         
-        # #importation table PRODUIT
-        # dfPRODUIT = df ['numProduit' , 'nomProduit' , 'PU']
-        
-        # dfPRODUIT.to_sql (
-        #     name="PRODUIT",
+        # dfpays.to_sql (
+        #     name="PAYS",
         #     con=engine,
         #     if_exists='append',
-        #     index="false",
-        # )
+        #     index=False
+        # )       
+        
+        #importation table PRODUIT
+        dfproduit = df[['numProduit','nomProduit' , 'PU' ]].copy()  #pour suppriemr les doublons entre les 3 colonnes de num produit
+        #description et prix unitaire
+        dfproduit.drop_duplicates(subset=['numProduit'],inplace=True)
+        dfproduit
+        row_iter = dfproduit.iterrows()
+        objs =[
+          Produit (
+            numproduit = row ['numProduit'],
+            nomproduit = row ['nomProduit'],
+            pu = row ['PU'],
+          )
+          for index, row in row_iter
+               ]
+        Produit.objects.bulk_create(objs)
         
         # #importation table FACTURE
         # dfFACTURE = df ['numFacture' , 'dateAchat' , 'pays']
@@ -90,8 +97,8 @@ def importF (request):
         # dfFACTURE.to_sql (
         #     name="FACTURE",
         #     con=engine,
-        #     if_exists='append',
-        #     index="false",
+        #     if_exists='replace',
+        #     index=False,
         # )
         
         # dfDTLFACT = df ['numFacture' , 'numproduit' , 'qte']
