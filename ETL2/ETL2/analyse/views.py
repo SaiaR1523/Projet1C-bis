@@ -59,7 +59,7 @@ def importF (request):
         
         #transformer les entêtes pour que ça soit le même avec la data base 
         df = df.rename(columns={'InvoiceNo': 'numFacture', 'StockCode': 'numProduit', 
-                                'Description': 'nomProduit', 'UnitPrice': 'PU', 'InvoiceDate': 'dateAchat',
+                                'Description': 'nomProduit', 'UnitPrice': 'PU', 'InvoiceDate': 'dateFact',
                                 'Quantity' : 'qte','Country': 'pays' })
         # The DataFrame now has the new column names
         print(df)
@@ -94,9 +94,10 @@ def importF (request):
         Produit.objects.bulk_create(objs)
         
         #importation table FACTURE
-        dffacture = df [['numFacture' , 'dateAchat' , 'pays']].copy()  #pour suppriemr les doublons entre les 3 colonnes de num produit
-        #description et prix unitaire
+        dffacture = df [['numFacture' , 'dateFact' , 'pays']].copy()  #pour suppriemr les doublons entre les 3 colonnes de num produit
+                #description et prix unitaire
         dffacture.drop_duplicates(subset=['numFacture'],inplace=True)
+        dffacture["dateFact"] = pd.to_datetime(dffacture["dateFact"])
         dffacture
         
         dffacture.to_sql (
@@ -106,7 +107,7 @@ def importF (request):
             index=False,
         )
         
-        dfDTLFACT = df [['numFacture' , 'numproduit' , 'qte']]
+        dfDTLFACT = df [['numFacture' , 'numProduit' , 'qte']].copy() 
         
         
         #Importation de la table FACTURE
