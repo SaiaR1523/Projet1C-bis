@@ -126,7 +126,7 @@ def importF (request):
             'n2': 3000 ,
             'n3' :infos1,
             'n4' : data,
-            'n5' : description, 
+            'n5' : description,   # a faire uen boucle pour chaque ligne et colonnes pour pouvoir afficher 
             }
         template = loader.get_template('retourImp.html')
         return HttpResponse(template.render(context, request)) 
