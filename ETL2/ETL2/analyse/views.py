@@ -115,7 +115,7 @@ def importF (request):
             name="DTLFACT",
             con=engine,
             if_exists='append',
-            index="false",
+            index=False,
         )
         
         
