@@ -15,6 +15,7 @@ from io import TextIOWrapper
 from .models import *
 import psycopg2
 from sqlalchemy import create_engine
+from django.db import connection
 engine = create_engine('postgresql://postgres:0000@localhost:5432/dashboard2')
 
 # Create your views here.
@@ -132,3 +133,57 @@ def importF (request):
         return HttpResponse(template.render(context, request)) 
 
       return render(request, 'import.html', {})
+  
+@login_required (login_url='login')
+def graph1(request):
+    detailF = Dtlfact.objects.all()
+    context = {'articles': detailF}
+    return render(request, 'graph1.html', context)
+  
+@login_required (login_url='login')
+def menuDb(request):
+  return render(request, 'menuDb.html', {})
+
+@login_required (login_url='login')
+def graph1(request):
+  with connection.cursor() as cursor:
+      cursor.execute("""select PRO."numProduit",PRO."nomProduit", count(*)
+        FROM "PRODUIT" as PRO 
+        inner join "DTLFACT" on PRO."numProduit" = "DTLFACT"."numProduit"
+        group by PRO."numProduit" 
+        order by 3 desc
+        limit 5""")
+      top5 = cursor.fetchall()
+  print(type(top5))
+  data = []
+  for element in top5:
+    data.append({
+      "nomProduit": element[1],
+      "count": element[2]
+    })
+  context = {'data':data}
+  return render(request, 'graph1.html', context)
+
+@login_required (login_url='login')
+def graph10(request):
+  with connection.cursor() as cursor:
+        cursor.execute("""select PRO."numProduit",PRO."nomProduit", count(*)
+          FROM "PRODUIT" as PRO 
+          inner join "DTLFACT" on PRO."numProduit" = "DTLFACT"."numProduit"
+          group by PRO."numProduit" 
+          order by 3 desc
+          limit 10""")
+        top5 = cursor.fetchall()
+  print(type(top5))
+  data = []
+  for element in top5:
+    data.append({
+      "nomProduit": element[1],
+      "count": element[2]
+    })
+  context = {'data':data}
+  return render(request, 'graph1.html', context)
+
+@login_required (login_url='login')
+def graph3(request):
+  return render(request, 'graph3.html', {})
