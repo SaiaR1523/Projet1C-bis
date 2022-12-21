@@ -6,9 +6,11 @@
     {% csrf_token %}
     
     <h2> graph 3 </h2>
-    <div style ='width : 720px;'>
+    <div style ='width : 640px;'>
         <canvas id="myChart3"> </canva>
     </div>
+
+    <a type="button" class="btn btn-primary" href="{% url 'top10p' %}" role="button">Top 10</a>
 
 <Script>
     var ctx = document.getElementById('myChart3').getContext('2d');
@@ -17,7 +19,7 @@
         data: {
             labels: [{% for item in data  %}'{{item.Pays}}',{% endfor %}],
             datasets: [{
-                label: 'Ventes de produits spécifiques',
+                label: 'Ventes de produits par pays',
                 data: [{% for item in data  %}'{{item.nbfacture}}',{% endfor %}],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
@@ -35,7 +37,7 @@
                     'rgba(153, 102, 255, 1)',
                     'rgba(255, 159, 64, 1)'
                 ],
-                borderWidth: 1
+                borderWidth: 2
             }]
         },
         options: {
