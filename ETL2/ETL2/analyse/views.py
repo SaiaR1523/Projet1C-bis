@@ -186,4 +186,21 @@ def graph10(request):
 
 @login_required (login_url='login')
 def graph3(request):
-  return render(request, 'graph3.html', {})
+    with connection.cursor() as cursor:
+        cursor.execute("""select "PAYS"."pays", count(*) as nbfacture
+          from "FACTURE" 
+          inner join "DTLFACT" on "FACTURE"."numFacture" = "DTLFACT"."numFacture"
+          inner join "PAYS" on "PAYS"."pays" = "FACTURE"."pays"
+          group by "PAYS"."pays" 
+          order by 2 desc
+          limit 5;""")
+        top5 = cursor.fetchall()
+    print(type(top5))
+    data = []
+    for element in top5:
+      data.append({
+        "Pays": element[0],
+        "nbfacture": element[1]
+      })
+    context = {'data':data}
+    return render(request, 'graph3.html', context)
