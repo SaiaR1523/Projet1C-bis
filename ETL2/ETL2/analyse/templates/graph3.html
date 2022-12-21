@@ -5,13 +5,13 @@
 <form action="" method=POST>
     {% csrf_token %}
     
-    <h2> graph 3 </h2>
+    <h2> Ventes par pays </h2>
     <div style ='width : 640px;'>
         <canvas id="myChart3"> </canva>
     </div>
 
     <a type="button" class="btn btn-primary" href="{% url 'top10p' %}" role="button">Top 10</a>
-
+    <a type="button" class="btn btn-primary" href="{% url 'graph3' %}" role="button">Top 5</a>
 <Script>
     var ctx = document.getElementById('myChart3').getContext('2d');
     var myChart = new Chart(ctx, {

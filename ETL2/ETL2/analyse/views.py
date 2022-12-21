@@ -24,7 +24,7 @@ def db(request):
   data = request.session.get('data')
   print (data)
   context = {'f1' : data}
-  return render(request, 'dashboard.html', {})
+  return render(request, 'dashboard.html', context)
 
 @login_required (login_url='login')
 def importF (request):
@@ -225,3 +225,6 @@ def top10p(request):
       })
     context = {'data':data}
     return render(request, 'graph3.html', context)
+
+def graph2 (request):
+  return render(request, 'graph2.html', {})
