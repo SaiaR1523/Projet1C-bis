@@ -5,7 +5,7 @@
 <form action="" method=POST>
     {% csrf_token %}
     
-    <h2> graph 2 </h2>
+    <h2> Ventes de prouduit par région </h2>
         <div style ='width : 1000px;'>
             <canvas id="myChart2"> </canva>
         </div>
@@ -15,80 +15,122 @@
         </div>
     
 <Script>
-    var ctx = document.getElementById('myChart2');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Juillet','août', 'septembre', 'octobre', 'novembre', 'Décembre'],
-            datasets: [{
-                label: 'Répartition des ventes par produits',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 2
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
-    var ctx = document.getElementById('myChart2-2').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-        labels: ['Juillet','août', 'septembre', 'octobre', 'novembre', 'Décembre'],
+    // setup 
+    const data = {
+        labels: ['Juillet', 'août', 'septembre', 'octobre', 'novembre', 'Décembre'],
         datasets: [{
-            label: 'Ventes de produits spécifiques',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
+          label: 'Weekly Sales',
+          data: [ 
+          {x: 'Juillet', y: 18, sales:[1,2,7,2,18,13]},
+          {x: 'août', y: 12, sales:[1,2,7,2,18,1]},
+          {x: 'septembre', y: 19, sales:[1,2,7,2,18,19]},
+          {x: 'octobre', y: 3, sales:[1,2,7,2,18,20]},
+          {x: 'novembre', y: 5, sales:[1,2,7,2,18,112]},
+          {x: 'Décembre', y: 2, sales:[1,2,7,2,18,133]},
+          ],
+          backgroundColor: [
+            'rgba(255, 26, 104, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(0, 0, 0, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255, 26, 104, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(0, 0, 0, 1)'
+          ],
+          borderWidth: 1
         }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
+      };
+  
+      // config 
+      const config = {
+        type: 'bar',
+        data,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
         }
-    }
-});
+      };
+
+      // render init block
+      const ctx = document.getElementById('myChart2')
+      const myChart = new Chart(
+        ctx,
+        config
+    );
+
+//////////////////////////////////////////////////////:DEUXIEME GRAPHIQUE////////////////////////////////////////////////////////////////////
+    const data2 = {
+        labels: ['Juillet', 'août', 'septembre', 'octobre', 'novembre', 'Décembre'],
+        datasets: [{
+          label: 'Weekly Sales',
+          data: [18, 12, 6, 9, 12, 3],
+          backgroundColor: [
+            'rgba(255, 26, 104, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(0, 0, 0, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255, 26, 104, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(0, 0, 0, 1)'
+          ],
+          borderWidth: 1
+        }]
+      };
+  
+      // config 
+      const config2 = {
+        type: 'bar',
+        data : data2,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      };
+  
+      // render init block
+      const myChart2 = new Chart(
+        document.getElementById('myChart2-2'),
+        config2
+    );
+
+    function clickHandler(click){
+        const points = myChart.getElementsAtEventForMode(click, 'nearest', {intersect:  true}, true);
+        console.log(points);
+        if(points.length){
+            //console.log(points.length)
+            //console.log(points[0].element.$context.raw.sales)
+            
+            myChart2.config.data.datasets[0].data = points[0].element.$context.raw.sales;
+            myChart2.update();
+        }
+    };
+
+    ctx.onclick = clickHandler; 
+
 </script>    
 
 </form>

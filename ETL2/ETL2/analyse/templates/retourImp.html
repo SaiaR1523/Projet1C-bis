@@ -6,12 +6,9 @@
     {% csrf_token %}
     
     <div>
-  <h1> test d'import si arriver ici alors tout se passe bien </h1> 
-  <p>n1 vaut ..... {{ n1}} </p>
-  <p>n2 vaut ..... {{ n2}} </p>
-  <p>n3 vaut ..... {{ n3}} </p>
-  <p>n4 vaut ..... {{ n4}} </p>
+  <h1> Import Terminé Données stocké dans la base de donnée </h1> 
   <p>Déscription  {{ description }} </p>
+  <p>Nom du fichier récent importé   {{ data }} </p>
     </div>
 </form>
 {%endblock%}

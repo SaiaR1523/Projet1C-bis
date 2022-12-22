@@ -128,6 +128,7 @@ def importF (request):
             'n3' :infos1,
             'n4' : data,
             'n5' : description,   # a faire uen boucle pour chaque ligne et colonnes pour pouvoir afficher 
+            'data' : data,
             }
         template = loader.get_template('retourImp.html')
         return HttpResponse(template.render(context, request)) 
@@ -226,5 +227,23 @@ def top10p(request):
     context = {'data':data}
     return render(request, 'graph3.html', context)
 
+@login_required (login_url='login')
 def graph2 (request):
-  return render(request, 'graph2.html', {})
+  with connection.cursor() as cursor:
+        cursor.execute("""select "PAYS"."pays", "DTLFACT"."numProduit", count ("FACTURE"."numFacture") as nbfacture
+            from "FACTURE" 
+            inner join "DTLFACT" on "FACTURE"."numFacture" = "DTLFACT"."numFacture"
+            inner join "PAYS" on "PAYS"."pays" = "FACTURE"."pays"
+            group by "PAYS"."pays","DTLFACT"."numProduit"
+            order by 3 desc;""")
+        topa = cursor.fetchall()
+  print(type(topa))
+  data = []
+  for element in topa:
+      data.append({
+        "Pays": element[0],
+        "numProduit": element[1],
+        "nbfacture": element[2],
+      })
+  context = {'data':data}
+  return render(request, 'graph2.html', context)
